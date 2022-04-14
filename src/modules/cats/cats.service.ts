@@ -15,7 +15,9 @@ export class CatsService {
 
   async findAll(): Promise<IPagination<IQueryCat>> {
     const query = {};
-    const options: PaginateOptions = {};
+    const options: PaginateOptions = {
+      lean: true,
+    };
     const data = await this.model.paginate(query, options);
 
     return formatPaginationData(data);
@@ -26,7 +28,7 @@ export class CatsService {
   }
 
   async findOne(id: string) {
-    const cat = await this.model.findById(id);
+    const cat = await this.model.findById(id).lean();
 
     if (!cat) {
       throw new HttpException({ key: 'cat.NOT_FOUND' }, HttpStatus.NOT_FOUND);
