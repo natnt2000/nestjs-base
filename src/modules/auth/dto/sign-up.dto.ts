@@ -1,7 +1,7 @@
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { IUser } from '../../users/user.interface';
 
-export class SignupDto implements IUser {
+export class SignupDto implements Omit<IUser, 'role'> {
   @IsEmail()
   email: string;
 
