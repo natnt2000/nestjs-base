@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBearerAuth,
   ApiHeader,
@@ -7,6 +6,10 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CommonIdDto } from 'src/common/common-id.dto';
+import { JwtAuthGuard } from '../auth/jwt.guard';
+import { Action } from '../permissions/permission.constant';
+import { Permissions } from '../permissions/permission.decorator';
+import { PermissionsGuard } from '../permissions/permission.guard';
 import { User } from '../users/user.decorator';
 import { IUser } from '../users/user.interface';
 import { CatsService } from './cats.service';
@@ -15,12 +18,13 @@ import { QueryCatResponseDto } from './dto/query-cat-response.dto';
 
 @ApiTags('cats')
 @ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @Controller('admin/cats')
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
   @Get()
+  @Permissions([Action.CAT_FEATURE_READ])
   @ApiOkResponse({ type: () => QueryCatResponseDto })
   findAll(@User() user: IUser) {
     return this.catsService.findAll();

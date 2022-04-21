@@ -52,7 +52,7 @@ describe('CatsService', () => {
     });
   });
 
-  describe('first', () => {
+  describe('findAll', () => {
     const mockMongoId = new ObjectId().toString();
     it('should be throw cat not found.', async () => {
       const mockError = new HttpException(

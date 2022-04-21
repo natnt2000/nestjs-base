@@ -25,6 +25,13 @@ export class UsersService {
   }
 
   async findById(id: string) {
-    return this.model.findById(id).lean();
+    return await this.model
+      .findById(id)
+      .populate({
+        path: 'role',
+        select: 'status',
+        populate: { path: 'permissions', select: 'action' },
+      })
+      .lean();
   }
 }
