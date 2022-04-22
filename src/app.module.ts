@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { APP_FILTER } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   AcceptLanguageResolver,
@@ -15,6 +15,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
+import { ProductsModule } from './modules/products/products.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -35,6 +37,18 @@ import { PermissionsModule } from './modules/permissions/permissions.module';
     UsersModule,
     RolesModule,
     PermissionsModule,
+    ProductsModule,
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      entities: ['./dist/**/*.entity{.ts,.js}'],
+      synchronize: !!process.env.DB_SYNCHRONIZE,
+      logging: true,
+    }),
   ],
   controllers: [AppController],
   providers: [

@@ -20,7 +20,7 @@ import { QueryCatResponseDto } from './dto/query-cat-response.dto';
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 @Controller('admin/cats')
-export class CatsController {
+export class CatsAdminController {
   constructor(private readonly catsService: CatsService) {}
 
   @Get()
