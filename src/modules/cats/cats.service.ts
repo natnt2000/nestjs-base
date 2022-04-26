@@ -17,6 +17,7 @@ export class CatsService {
     const query = {};
     const options: PaginateOptions = {
       lean: true,
+      select: 'age name gender',
     };
     const data = await this.model.paginate(query, options);
 
