@@ -9,7 +9,7 @@ import {
 import * as path from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { I18nExceptionFilter } from './common/i18n.exception';
+import { I18nExceptionFilter } from './common/exception/i18n.exception';
 import { CatsModule } from './modules/cats/cats.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
@@ -17,6 +17,8 @@ import { RolesModule } from './modules/roles/roles.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { ProductsModule } from './modules/products/products.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ApiClientModule } from './shared/api-client/api-client.module';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
@@ -47,7 +49,22 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: process.env.DB_DATABASE,
       entities: ['./dist/**/*.entity{.ts,.js}'],
       synchronize: !!process.env.DB_SYNCHRONIZE,
-      logging: true,
+    }),
+    ApiClientModule,
+    LoggerModule.forRoot({
+      pinoHttp: {
+        autoLogging: false,
+        transport:
+          process.env.NODE_ENV !== 'production'
+            ? {
+                target: 'pino-pretty',
+                options: {
+                  colorize: true,
+                  translateTime: 'SYS:standard',
+                },
+              }
+            : undefined,
+      },
     }),
   ],
   controllers: [AppController],

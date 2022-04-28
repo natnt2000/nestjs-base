@@ -30,4 +30,12 @@ const comparePassword = (
   return decryptedData === password;
 };
 
-export { encryptPassword, comparePassword };
+const trimSpecialCharactersWhenSearch = (search: string) => {
+  if (!search) {
+    return '';
+  }
+
+  return search.trim().replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+};
+
+export { encryptPassword, comparePassword, trimSpecialCharactersWhenSearch };

@@ -4,13 +4,18 @@ import { PaginateModel, PaginateOptions } from 'mongoose';
 import { ICatDoc, IQueryCat } from './cat.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateCatDto } from './dto/create-cat.dto';
-import { formatPaginationData, IPagination } from '../../common/pagination.dto';
+import {
+  formatPaginationData,
+  IPagination,
+} from '../../common/dto/pagination.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
+import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 
 @Injectable()
 export class CatsService {
   constructor(
     @InjectModel(CAT_MODEL) private readonly model: PaginateModel<ICatDoc>,
+    @InjectPinoLogger(CatsService.name) private readonly logger: PinoLogger,
   ) {}
 
   async findAll(): Promise<IPagination<IQueryCat>> {
@@ -25,6 +30,7 @@ export class CatsService {
   }
 
   async create(createCatDto: CreateCatDto) {
+    this.logger.info({ createCatDto });
     return this.model.create(createCatDto);
   }
 

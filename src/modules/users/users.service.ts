@@ -4,7 +4,7 @@ import { IUserDoc } from './user.interface';
 import { USER_MODEL } from './user.schema';
 import { Model } from 'mongoose';
 import { SignupDto } from '../auth/dto/sign-up.dto';
-import { encryptPassword } from '../../common/encryption';
+import { encryptPassword } from '../../common/utility';
 
 @Injectable()
 export class UsersService {

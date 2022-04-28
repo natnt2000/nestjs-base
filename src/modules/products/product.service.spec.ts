@@ -3,11 +3,17 @@ import { ProductsService } from './products.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Product } from './product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
+import { ApiClientService } from '../../shared/api-client/api-client.service';
+import { getLoggerToken } from 'nestjs-pino';
 
 describe('ProductsService', () => {
   let productsService: ProductsService;
   const mockRepository = {
     save: jest.fn(),
+  };
+  const mockApiClientService = {};
+  const mockLogger = {
+    info: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -15,6 +21,8 @@ describe('ProductsService', () => {
       providers: [
         ProductsService,
         { provide: getRepositoryToken(Product), useValue: mockRepository },
+        { provide: ApiClientService, useValue: mockApiClientService },
+        { provide: getLoggerToken(ProductsService.name), useValue: mockLogger },
       ],
     }).compile();
 

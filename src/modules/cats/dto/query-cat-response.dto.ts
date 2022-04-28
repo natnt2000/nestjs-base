@@ -1,4 +1,4 @@
-import { PaginationResponseDto } from '../../../common/pagination.dto';
+import { CommonPaginationResponseDto } from '../../../common/dto/pagination.dto';
 import { CatGender } from '../cat.constant';
 import { IQueryCat } from '../cat.interface';
 
@@ -9,6 +9,6 @@ class QueryCatDto implements IQueryCat {
   gender: CatGender;
 }
 
-export class QueryCatResponseDto extends PaginationResponseDto {
+export class QueryCatResponseDto extends CommonPaginationResponseDto {
   data: QueryCatDto[];
 }

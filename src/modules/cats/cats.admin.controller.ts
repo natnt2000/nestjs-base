@@ -5,8 +5,8 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { CommonIdDto } from 'src/common/common-id.dto';
-import { JwtAuthGuard } from '../auth/jwt.guard';
+import { CommonIdDto } from '../../common/dto/common-id.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { Action } from '../permissions/permission.constant';
 import { Permissions } from '../permissions/permission.decorator';
 import { PermissionsGuard } from '../permissions/permission.guard';
