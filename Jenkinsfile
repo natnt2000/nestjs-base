@@ -3,15 +3,15 @@ pipeline {
   
   stages {
     stage("build") {
-    steps {
-      echo 'Building the application'
+      steps {
+        npm run build
+      }
     }
-  }
   
-  stage("test") {
-    steps {
-      echo 'Testing the application'
+    stage("test") {
+        steps {
+          npm run test
+        }
+      }
     }
-  }
-  }
 }
